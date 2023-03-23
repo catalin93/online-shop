@@ -17,7 +17,16 @@ public class ProductMapper {
                 .name(productDTO.getName())
                 .unitsInStock(Integer.valueOf(productDTO.getUnitsInStock()))
                 .build();
+    }
 
-
+    public ProductDTO mapProductDTO(Product product) {
+        return ProductDTO.builder()
+                .price(String.valueOf(product.getPrice()))
+                .description(product.getDescription())
+                .category(product.getCategory())
+                .name(product.getName())
+                .unitsInStock(String.valueOf(product.getUnitsInStock()))
+                .id(String.valueOf(product.getId()))
+                .build();
     }
 }

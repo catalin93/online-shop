@@ -7,6 +7,9 @@ import com.sda.onlineshopfinalproject.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ProductService {
     @Autowired
@@ -19,4 +22,14 @@ public class ProductService {
     }
 
 
+    public List<ProductDTO> getAllProductDTO() {
+        List<ProductDTO> productDTOList = new ArrayList<>();
+        List<Product> productList = productRepository.findAll();
+        for (Product product: productList) {
+           ProductDTO productDTO = productMapper.mapProductDTO(product);
+            productDTOList.add(productDTO);
+        }
+
+        return productDTOList;
+    }
 }

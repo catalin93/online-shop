@@ -9,7 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -25,6 +28,7 @@ public class MainController {
         model.addAttribute("productDTO",productDTO);
         //aici implementam fancy "Bussines logic"
         return "addProduct";
+
     }
     @PostMapping("/addProduct")
     public String addProductPost(@ModelAttribute ProductDTO productDTO){
@@ -35,7 +39,16 @@ public class MainController {
     }
 
     @GetMapping("/homePage")
-    public String homePageGet(){
+    public String homePageGet(Model model){
+
+        List<ProductDTO> productDTOList = productService.getAllProductDTO();
+        model.addAttribute("productDTOList",productDTOList);
+        System.out.println(productDTOList);
         return "homePage";
+    }
+    @GetMapping("/product/{id}")
+    public String viewProductGet (Model model,@PathVariable(value = "id") String id){
+        System.out.println("Am dat click pe produsul cu id " +id);
+        return "viewProduct";
     }
 }
