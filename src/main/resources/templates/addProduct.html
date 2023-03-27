@@ -25,7 +25,7 @@
             <div class="col-lg-6">
                 <div class="login_form_inner register_form_inner">
                     <h3>Add PRODUCT</h3>
-                    <form th:object="${productDTO}" class="row login_form" action="/addProduct" method="post" id="register_form" >
+                    <form th:object="${productDTO}" class="row login_form" action="/addProduct" method="post" id="register_form" enctype="multipart/form-data" >
                         <div class="col-md-12 form-group">
                             <input th:field="*{name}" type="text" class="form-control" id="name" name="name" placeholder="Name product" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name product'" />
                         </div>
@@ -40,6 +40,9 @@
                         </div>
                         <div class="col-md-12 form-group">
                             <input th:field="*{unitsInStock}" type="number" class="form-control" id="unitsInStock" name="unitsInStock" placeholder="Units in stock" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Units in stock'">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="file" class="form-control" id="productImg" name="productImg" >
                         </div>
 
                         <div class="col-md-12 form-group">

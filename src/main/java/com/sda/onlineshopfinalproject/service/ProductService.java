@@ -6,9 +6,11 @@ import com.sda.onlineshopfinalproject.mapper.ProductMapper;
 import com.sda.onlineshopfinalproject.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -16,8 +18,8 @@ public class ProductService {
     private ProductRepository productRepository;
     @Autowired
     private ProductMapper productMapper;
-    public void add(ProductDTO productDTO){
-        Product product = productMapper.mapProduct(productDTO);
+    public void add(ProductDTO productDTO, MultipartFile multipartFile){
+        Product product = productMapper.mapProduct(productDTO,multipartFile);
         productRepository.save(product);
     }
 
@@ -32,4 +34,14 @@ public class ProductService {
 
         return productDTOList;
     }
+
+    public Optional<ProductDTO> getProdactDTOById(String id){
+        Optional<Product> optionalProduct = productRepository.findById(Long.valueOf(id));
+        if(optionalProduct.isEmpty()){
+            return Optional.empty();
+        }
+        ProductDTO productDTO = productMapper.mapProductDTO(optionalProduct.get());
+        return Optional.of(productDTO);
+    }
+
 }
