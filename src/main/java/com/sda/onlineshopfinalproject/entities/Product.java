@@ -23,4 +23,9 @@ public class Product {
     private String category;
     @Nonnull
     private Integer unitsInStock;
+
+    // imaginile in baza de date sunt salvate ca BLOB
+    @Lob
+    @Column(columnDefinition = "BLOB")
+    private byte[] img;
 }
