@@ -2,11 +2,15 @@ package com.sda.onlineshopfinalproject.controller;
 
 
 import com.sda.onlineshopfinalproject.dto.ProductDTO;
+import com.sda.onlineshopfinalproject.dto.UserAccountDTO;
 import com.sda.onlineshopfinalproject.service.ProductService;
+import com.sda.onlineshopfinalproject.service.UserAccountService;
+import com.sda.onlineshopfinalproject.validator.UserAccountValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,8 +21,13 @@ import java.util.Optional;
 @Controller
 public class MainController {
     @Autowired
-   private ProductService productService;
+    private ProductService productService;
 
+    @Autowired
+    private UserAccountService userAccountService;
+
+    @Autowired
+    private UserAccountValidator userAccountValidator;
 
 
     @GetMapping("/addProduct")
@@ -58,12 +67,27 @@ public class MainController {
     }
 
     @GetMapping("/register")
-    public String registerGet(){
+    public String registerGet(Model model){
+        UserAccountDTO userAccountDTO = new UserAccountDTO();
+        model.addAttribute("userAccountDTO",userAccountDTO);
         return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerPost(@ModelAttribute UserAccountDTO userAccountDTO, BindingResult bindingResult){
+        System.out.println(userAccountDTO);
+        userAccountValidator.validate(userAccountDTO, bindingResult);
+        if(bindingResult.hasErrors()){
+            return "register";
+        }
+        userAccountService.addUserAccount(userAccountDTO);
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
     public String loginGet(){
+
         return "login";
     }
+
 }
