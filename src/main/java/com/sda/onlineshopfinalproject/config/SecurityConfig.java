@@ -16,6 +16,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain (HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/register").permitAll();
+            auth.requestMatchers("/homePage").hasAnyRole("SELLER", "BUYER");
+            auth.requestMatchers("/addProduct").hasRole("SELLER");
+            auth.requestMatchers("/product/*").hasAnyRole("SELLER", "BUYER");
+            auth.requestMatchers("/cart").hasRole("BUYER");
+
 
         }).httpBasic();
         httpSecurity.csrf().disable()
@@ -40,5 +45,6 @@ public class SecurityConfig {
 
         return new BCryptPasswordEncoder();
     }
+
 
 }

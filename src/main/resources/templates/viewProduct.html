@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="/vendors/nice-select/nice-select.css">
     <link rel="stylesheet" href="/vendors/nouislider/nouislider.min.css">
 
-<!--    // daca avem / in fata avem cale absoluta, iar fara / cale relativa-->
-<!--// ex /vendors/nouislider/nouislider.min.css &#45;&#45;este cale absoluta-->
+    <!--    // daca avem / in fata avem cale absoluta, iar fara / cale relativa-->
+    <!--// ex /vendors/nouislider/nouislider.min.css &#45;&#45;este cale absoluta-->
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -36,10 +36,11 @@
             </div>
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
-                    <h3 th:text="${productDTO.name}"> </h3>
+                    <h3 th:text="${productDTO.name}"></h3>
                     <h2 th:text="${productDTO.price} + ' RON'"></h2>
                     <ul class="list">
-                        <li><a class="active" href="#"><span>Category: </span > <span th:text="${productDTO.category}"></span> </a></li>
+                        <li><a class="active" href="#"><span>Category: </span> <span
+                                th:text="${productDTO.category}"></span> </a></li>
                         <li>
                             <a href="#">
                                 <span>In Stock: </span>
@@ -52,16 +53,19 @@
                             </a>
                         </li>
                     </ul>
-                    <p th:text="${productDTO.description}"> </p>
-                    <div class="product_count">
-                        <label >Quantity:</label>
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
-                        <input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
-                        <a class="button primary-btn" href="#">Add to Cart</a>
-                    </div>
+                    <p th:text="${productDTO.description}"></p>
+                    <form th:object="${productQuantityDTO}" th:action="@{/product/{x}(x=${productDTO.id})}" method="post">
+                        <div class="product_count">
+                            <label>Quantity:</label>
+                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                    class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
+                            <input th:field="*{quantity}" type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:"
+                                   class="input-text qty">
+                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                    class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
+                            <button class="button primary-btn" type="submit">Add to Cart</button>
+                        </div>
+                    </form>
                     <div class="card_area d-flex align-items-center">
                         <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
                         <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
