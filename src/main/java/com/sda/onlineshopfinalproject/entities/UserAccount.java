@@ -1,9 +1,7 @@
 package com.sda.onlineshopfinalproject.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.sda.onlineshopfinalproject.enums.UserRole;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -14,6 +12,7 @@ import lombok.*;
 
 public class UserAccount {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;
@@ -23,5 +22,7 @@ public class UserAccount {
     private String address;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
 }

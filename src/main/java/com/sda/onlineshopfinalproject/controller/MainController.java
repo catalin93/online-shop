@@ -2,12 +2,14 @@ package com.sda.onlineshopfinalproject.controller;
 
 
 import com.sda.onlineshopfinalproject.dto.ProductDTO;
+import com.sda.onlineshopfinalproject.dto.ProductQuantityDTO;
 import com.sda.onlineshopfinalproject.dto.UserAccountDTO;
 import com.sda.onlineshopfinalproject.service.ProductService;
 import com.sda.onlineshopfinalproject.service.UserAccountService;
 import com.sda.onlineshopfinalproject.validator.UserAccountValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -63,14 +65,26 @@ public class MainController {
             return "errorPage";
         }
         model.addAttribute("productDTO",optionalProductDTO.get());
+        ProductQuantityDTO productQuantityDTO = new ProductQuantityDTO();
+        model.addAttribute("productQuantityDTO", productQuantityDTO);
         return "viewProduct";
+    }
+
+    @PostMapping("/product/{id}")
+    public String addToCartPost(@ModelAttribute ProductQuantityDTO productQuantityDTO,
+                                @PathVariable(value = "id") String id,
+                                Authentication authentication){
+        System.out.println("Cantitatea este : " + productQuantityDTO);
+        System.out.println("Adaun in cos produsul cu id: " + id);
+        System.out.println("Email: " + authentication.getName());
+        return "redirect:/product/"+id;
     }
 
     @GetMapping("/register")
     public String registerGet(Model model){
         UserAccountDTO userAccountDTO = new UserAccountDTO();
         model.addAttribute("userAccountDTO",userAccountDTO);
-        return "register";
+        return "redirect:/product/";
     }
 
     @PostMapping("/register")
@@ -89,5 +103,6 @@ public class MainController {
 
         return "login";
     }
+
 
 }
