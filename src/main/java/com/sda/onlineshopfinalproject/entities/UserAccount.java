@@ -25,4 +25,10 @@ public class UserAccount {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
+
+    //cascade = CascadeType.ALL    -   se foloseste pentru a salva CArt automat
+    @OneToOne( cascade = CascadeType.ALL)
+    @JoinColumn
+    private Cart cart;
+
 }

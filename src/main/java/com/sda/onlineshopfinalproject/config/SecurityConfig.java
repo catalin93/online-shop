@@ -20,6 +20,7 @@ public class SecurityConfig {
             auth.requestMatchers("/addProduct").hasRole("SELLER");
             auth.requestMatchers("/product/*").hasAnyRole("SELLER", "BUYER");
             auth.requestMatchers("/cart").hasRole("BUYER");
+            auth.requestMatchers("/checkout").hasRole("BUYER");
 
 
         }).httpBasic();
@@ -28,7 +29,7 @@ public class SecurityConfig {
                 .and()
                 .cors().disable().authorizeHttpRequests()
                 .and()
-                .formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/homePage");
+                .formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/homePage", true);
 
         return httpSecurity.build();
     }
