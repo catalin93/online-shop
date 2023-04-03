@@ -4,6 +4,8 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @Entity
 @Getter
@@ -28,4 +30,9 @@ public class Product {
     @Lob
     @Column(columnDefinition = "BLOB")
     private byte[] img;
+
+    @OneToMany(mappedBy = "product")
+    private List<CartEntry> cartEntryList;
+
+
 }

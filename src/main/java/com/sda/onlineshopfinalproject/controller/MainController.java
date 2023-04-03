@@ -4,6 +4,7 @@ package com.sda.onlineshopfinalproject.controller;
 import com.sda.onlineshopfinalproject.dto.ProductDTO;
 import com.sda.onlineshopfinalproject.dto.ProductQuantityDTO;
 import com.sda.onlineshopfinalproject.dto.UserAccountDTO;
+import com.sda.onlineshopfinalproject.service.CartService;
 import com.sda.onlineshopfinalproject.service.ProductService;
 import com.sda.onlineshopfinalproject.service.UserAccountService;
 import com.sda.onlineshopfinalproject.validator.UserAccountValidator;
@@ -30,6 +31,9 @@ public class MainController {
 
     @Autowired
     private UserAccountValidator userAccountValidator;
+
+    @Autowired
+    private CartService cartService;
 
 
     @GetMapping("/addProduct")
@@ -77,6 +81,7 @@ public class MainController {
         System.out.println("Cantitatea este : " + productQuantityDTO);
         System.out.println("Adaun in cos produsul cu id: " + id);
         System.out.println("Email: " + authentication.getName());
+        cartService.addToCart(id,productQuantityDTO,authentication.getName());
         return "redirect:/product/"+id;
     }
 
@@ -84,7 +89,7 @@ public class MainController {
     public String registerGet(Model model){
         UserAccountDTO userAccountDTO = new UserAccountDTO();
         model.addAttribute("userAccountDTO",userAccountDTO);
-        return "redirect:/product/";
+        return "register";
     }
 
     @PostMapping("/register")
@@ -102,6 +107,11 @@ public class MainController {
     public String loginGet(){
 
         return "login";
+    }
+
+    @GetMapping("/checkout")
+    public String checkoutGet(){
+        return "checkout";
     }
 
 
