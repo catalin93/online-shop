@@ -1,9 +1,6 @@
 package com.sda.onlineshopfinalproject.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
@@ -17,6 +14,7 @@ public class ProductDTO {
     private String category;
     private String unitsInStock;
 
+    @ToString.Exclude
     private String img;
 
 }

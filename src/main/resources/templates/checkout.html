@@ -21,6 +21,7 @@
 
 </head>
 <body>
+<div th:insert="fragments/menu::menu"></div>
 <!--================Cart Area =================-->
 <section class="cart_area">
   <div class="container">
@@ -118,12 +119,17 @@
             <td>
 
             </td>
-            <td>
-              <div class="checkout_btn_inner d-flex align-items-center">
-                <a class="gray_btn" href="/homePage">Continue Shopping</a>
-                <a class="primary-btn ml-2" href="#">Place order</a>
-              </div>
-            </td>
+<!--            // nu este permis sa avem form in form-->
+            <form action="/confirmation" method="post">
+              <td>
+                <div class="checkout_btn_inner d-flex align-items-center">
+                  <a class="gray_btn" href="/homePage">Continue Shopping</a>
+                    <button type="submit" value="submit" class="button button-register w-100">Place order</button>
+
+                </div>
+              </td>
+
+            </form>
           </tr>
           </tbody>
         </table>

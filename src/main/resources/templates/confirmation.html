@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>Title</title>
+  <link rel="icon" href="img/Fevicon.png" type="image/png">
+  <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
+  <link rel="stylesheet" href="vendors/linericon/style.css">
+  <link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
+  <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+  <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div th:insert="fragments/menu::menu"></div>
+<!--================Order Details Area =================-->
+<section class="order_details section-margin--small">
+  <div class="container">
+    <p class="text-center billing-alert">Thank you. Your order has been received.</p>
+
+    <div class="order_details_table">
+      <h2>Order Details</h2>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="cartEntryDTO:${checkoutDTO.cartEntryDTOList}">
+            <td>
+              <p th:text="${cartEntryDTO.name}"></p>
+            </td>
+            <td>
+              <h5 th:text="${cartEntryDTO.quantity}" ></h5>
+            </td>
+            <td>
+              <p th:text="${cartEntryDTO.price + 'ron'}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4>Subtotal</h4>
+            </td>
+            <td>
+              <h5></h5>
+            </td>
+            <td>
+              <p th:text="${checkoutDTO.subtotal + 'RON'}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4>Shipping</h4>
+            </td>
+            <td>
+              <h5></h5>
+            </td>
+            <td>
+              <p th:text="${checkoutDTO.shippingFee + 'RON'}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4>Total</h4>
+            </td>
+            <td>
+              <h5></h5>
+            </td>
+            <td>
+              <h4 th:text="${checkoutDTO.total + 'RON'}"></h4>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="vendors/skrollr.min.js"></script>
+<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+<script src="vendors/nice-select/jquery.nice-select.min.js"></script>
+<script src="vendors/jquery.ajaxchimp.min.js"></script>
+<script src="vendors/mail-script.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

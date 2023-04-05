@@ -4,6 +4,8 @@ import com.sda.onlineshopfinalproject.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @Builder
@@ -30,5 +32,8 @@ public class UserAccount {
     @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn
     private Cart cart;
+
+    @OneToMany(mappedBy = "userAccount")
+    private List<Order> orderList;
 
 }

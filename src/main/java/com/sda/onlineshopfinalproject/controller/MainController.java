@@ -3,6 +3,7 @@ package com.sda.onlineshopfinalproject.controller;
 
 import com.sda.onlineshopfinalproject.dto.*;
 import com.sda.onlineshopfinalproject.service.CartService;
+import com.sda.onlineshopfinalproject.service.OrderService;
 import com.sda.onlineshopfinalproject.service.ProductService;
 import com.sda.onlineshopfinalproject.service.UserAccountService;
 import com.sda.onlineshopfinalproject.validator.UserAccountValidator;
@@ -34,17 +35,21 @@ public class MainController {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private OrderService orderService;
+
 
     @GetMapping("/addProduct")
-    public String addProductGet(Model model){
+    public String addProductGet(Model model) {
         ProductDTO productDTO = new ProductDTO();
-        model.addAttribute("productDTO",productDTO);
+        model.addAttribute("productDTO", productDTO);
         //aici implementam fancy "Bussines logic"
         return "addProduct";
 
     }
+
     @PostMapping("/addProduct")
-    public String addProductPost(@ModelAttribute ProductDTO productDTO ,@RequestParam("productImg") MultipartFile multipartFile){
+    public String addProductPost(@ModelAttribute ProductDTO productDTO, @RequestParam("productImg") MultipartFile multipartFile) {
         System.out.println(productDTO);
         log.info("Am adaugat un produs");
         productService.add(productDTO, multipartFile);
@@ -52,22 +57,23 @@ public class MainController {
     }
 
     @GetMapping("/homePage")
-    public String homePageGet(Model model){
+    public String homePageGet(Model model) {
 
         List<ProductDTO> productDTOList = productService.getAllProductDTO();
-        model.addAttribute("productDTOList",productDTOList);
+        model.addAttribute("productDTOList", productDTOList);
         System.out.println(productDTOList);
         return "homePage";
     }
+
     @GetMapping("/product/{id}")
-    public String viewProductGet (Model model,@PathVariable(value = "id") String id){
-        System.out.println("Am dat click pe produsul cu id " +id);
+    public String viewProductGet(Model model, @PathVariable(value = "id") String id) {
+        System.out.println("Am dat click pe produsul cu id " + id);
         Optional<ProductDTO> optionalProductDTO = productService.getProdactDTOById(id);
-        if(optionalProductDTO.isEmpty()){
+        if (optionalProductDTO.isEmpty()) {
             // accesam o pagina de eroare
             return "errorPage";
         }
-        model.addAttribute("productDTO",optionalProductDTO.get());
+        model.addAttribute("productDTO", optionalProductDTO.get());
         ProductQuantityDTO productQuantityDTO = new ProductQuantityDTO();
         model.addAttribute("productQuantityDTO", productQuantityDTO);
         return "viewProduct";
@@ -76,26 +82,26 @@ public class MainController {
     @PostMapping("/product/{id}")
     public String addToCartPost(@ModelAttribute ProductQuantityDTO productQuantityDTO,
                                 @PathVariable(value = "id") String id,
-                                Authentication authentication){
+                                Authentication authentication) {
         System.out.println("Cantitatea este : " + productQuantityDTO);
         System.out.println("Adaun in cos produsul cu id: " + id);
         System.out.println("Email: " + authentication.getName());
-        cartService.addToCart(id,productQuantityDTO,authentication.getName());
-        return "redirect:/product/"+id;
+        cartService.addToCart(id, productQuantityDTO, authentication.getName());
+        return "redirect:/product/" + id;
     }
 
     @GetMapping("/register")
-    public String registerGet(Model model){
+    public String registerGet(Model model) {
         UserAccountDTO userAccountDTO = new UserAccountDTO();
-        model.addAttribute("userAccountDTO",userAccountDTO);
+        model.addAttribute("userAccountDTO", userAccountDTO);
         return "register";
     }
 
     @PostMapping("/register")
-    public String registerPost(@ModelAttribute UserAccountDTO userAccountDTO, BindingResult bindingResult){
+    public String registerPost(@ModelAttribute UserAccountDTO userAccountDTO, BindingResult bindingResult) {
         System.out.println(userAccountDTO);
         userAccountValidator.validate(userAccountDTO, bindingResult);
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "register";
         }
         userAccountService.addUserAccount(userAccountDTO);
@@ -103,13 +109,13 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String loginGet(){
+    public String loginGet() {
 
         return "login";
     }
 
     @GetMapping("/checkout")
-    public String checkoutGet(  Model model, Authentication authentication){
+    public String checkoutGet(Model model, Authentication authentication) {
 //        CheckoutDTO checkoutDTO = CheckoutDTO.builder()
 //                .total("4220")
 //                .shippingFee("10")
@@ -133,5 +139,17 @@ public class MainController {
         return "checkout";
     }
 
+    @GetMapping("/confirmation")
+    public String confirmationGet() {
+        return "errorPage";
+    }
+
+    @PostMapping("/confirmation")
+    public String confirmationPost(Model model, Authentication authentication) {
+        orderService.placeOrder(authentication.getName());
+        CheckoutDTO checkoutDTO = cartService.getCheckoutDtoByUserEmail(authentication.getName());
+        model.addAttribute("checkoutDTO", checkoutDTO);
+        return "confirmation";
+    }
 
 }
