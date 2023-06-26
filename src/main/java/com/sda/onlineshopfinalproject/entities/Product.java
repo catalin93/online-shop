@@ -1,5 +1,7 @@
 package com.sda.onlineshopfinalproject.entities;
 
+import com.sda.onlineshopfinalproject.enums.ProductCategory;
+import com.sda.onlineshopfinalproject.enums.UserRole;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,8 +23,10 @@ public class Product {
     private String description;
     @Nonnull
     private Integer price;
-    @Nonnull
-    private String category;
+//    @Nonnull
+//    private String category;
+    @Enumerated(EnumType.STRING)
+    private ProductCategory category;
     @Nonnull
     private Integer unitsInStock;
 

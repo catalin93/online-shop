@@ -37,7 +37,14 @@
                             <input th:field="*{price}" type="number" class="form-control" id="price" name="price" placeholder="Price" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Price'">
                         </div>
                         <div class="col-md-12 form-group">
-                            <input th:field="*{category}" type="text" class="form-control" id="category" name="category" placeholder="Category" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Category'">
+                            <select th:field="*{category}" class="form-control">
+                                <option th:value="FOOD" th:text="food">  </option>
+                                <option th:value="ELECTRONIC" th:text="electronic">  </option>
+                                <option th:value="CAR" th:text="car">  </option>
+                                <option th:value="CLOTHING" th:text="clothing">  </option>
+                                <option th:value="BEAUTY" th:text="beauty">  </option>
+                            </select>
+<!--                            <input th:field="*{category}" type="text" class="form-control" id="category" name="category" placeholder="Category" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Category'">-->
                         </div>
                         <div class="col-md-12 form-group">
                             <input th:field="*{unitsInStock}" type="number" class="form-control" id="unitsInStock" name="unitsInStock" placeholder="Units in stock" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Units in stock'">
