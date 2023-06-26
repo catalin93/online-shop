@@ -2,6 +2,7 @@ package com.sda.onlineshopfinalproject.mapper;
 
 import com.sda.onlineshopfinalproject.dto.ProductDTO;
 import com.sda.onlineshopfinalproject.entities.Product;
+import com.sda.onlineshopfinalproject.enums.ProductCategory;
 import com.sun.jdi.IntegerValue;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public class ProductMapper {
         return  Product.builder()
                 .price(Integer.valueOf(productDTO.getPrice()))
                 .description(productDTO.getDescription())
-                .category(productDTO.getCategory())
+                .category(ProductCategory.valueOf(productDTO.getCategory()))
                 .name(productDTO.getName())
                 .unitsInStock(Integer.valueOf(productDTO.getUnitsInStock()))
                 .img(convertToByte(multipartFile))
@@ -28,13 +29,14 @@ public class ProductMapper {
         return ProductDTO.builder()
                 .price(String.valueOf(product.getPrice()))
                 .description(product.getDescription())
-                .category(product.getCategory())
+                .category(String.valueOf(product.getCategory()))
                 .name(product.getName())
                 .unitsInStock(String.valueOf(product.getUnitsInStock()))
                 .id(String.valueOf(product.getId()))
                 .img(Base64.encodeBase64String(product.getImg()))
                 .build();
     }
+    // TODO: la mapProductDTO ar putea fi o problema la transformarea categoriei
 
     private byte[] convertToByte(MultipartFile multipartFile){
         try {
