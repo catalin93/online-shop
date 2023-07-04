@@ -141,6 +141,8 @@ public class MainController {
 
     @GetMapping("/confirmation")
     public String confirmationGet() {
+
+
         return "errorPage";
     }
 
@@ -149,6 +151,8 @@ public class MainController {
         orderService.placeOrder(authentication.getName());
         CheckoutDTO checkoutDTO = cartService.getCheckoutDtoByUserEmail(authentication.getName());
         model.addAttribute("checkoutDTO", checkoutDTO);
+
+     //   productService.updateById(1l,2);
         return "confirmation";
     }
 
