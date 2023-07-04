@@ -5,6 +5,7 @@ import com.sda.onlineshopfinalproject.entities.Product;
 import com.sda.onlineshopfinalproject.mapper.ProductMapper;
 import com.sda.onlineshopfinalproject.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,18 @@ public class ProductService {
     public void add(ProductDTO productDTO, MultipartFile multipartFile){
         Product product = productMapper.mapProduct(productDTO,multipartFile);
         productRepository.save(product);
+    }
+
+    public void updateById(Long id, int quantity ){
+        Optional<Product> productOptional = productRepository.findById(id);
+        if(productOptional.isEmpty()){
+            return;
+        }else{
+            Product product = productOptional.get();
+            product.setUnitsInStock(product.getUnitsInStock()-quantity);
+            productRepository.save(product);
+        }
+       //TODO: DE OPTIMIZAT ACEASTA FUNCTIE, SA PUNEM QUANTITY INTRUN IF
     }
 
 
